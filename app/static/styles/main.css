@@ -1,21 +1,20 @@
 :root {
-    --bg-color: #fffdf0;        /* Кремово-желтый */
-    --text-color: #086344;      /* Темно-серый */
-    --primary: #efefef;         /* Ярко-желтый */
-    --secondary: #cdf0fe;       /* Оранжевый */
-    --accent: #d2f2d6;          /* Терракотовый */
-    --surface: #fff9c4;         /* Светло-желтый */
+    --bg-color: #fffdf0;
+    --text-color: #086344;
+    --primary: #efefef;
+    --secondary: #cdf0fe;
+    --accent: #d2f2d6;
+    --surface: #fff9c4;
 }
 
-/* Темная тема для систем с темным режимом */
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg-color: #1a1a1a;    /* Темный фон */
-        --text-color: #fffbdb;  /* Кремовый текст */
-        --primary: #1b2122;     /* Темное золото */
-        --secondary: #3b4c3a;   /* Темно-оранжевый */
-        --accent: #29627f;      /* Темный терракотовый */
-        --surface: #332900;     /* Темно-желтая поверхность */
+        --bg-color: #1a1a1a;
+        --text-color: #fffbdb;
+        --primary: #1b2122;
+        --secondary: #3b4c3a;
+        --accent: #29627f;
+        --surface: #332900;
     }
 }
 
