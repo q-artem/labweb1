@@ -1,36 +1,24 @@
 :root {
-    /* Светлая тема */
-    --bg-color-light: #ffffff;
-    --text-color-light: #333333;
-    --primary-light: #f3e879;
-    --secondary-light: rebeccapurple;
-    --accent-light: green;
-
-    /* Темная тема */
-    --bg-color-dark: #1a1a1a;
-    --text-color-dark: #ffffff;
-    --primary-dark: #2a2a2a;
-    --secondary-dark: #4a2a6a;
-    --accent-dark: #2d5a2d;
+    --bg-color: #fffdf0;        /* Кремово-желтый */
+    --text-color: #086344;      /* Темно-серый */
+    --primary: #efefef;         /* Ярко-желтый */
+    --secondary: #cdf0fe;       /* Оранжевый */
+    --accent: #d2f2d6;          /* Терракотовый */
+    --surface: #fff9c4;         /* Светло-желтый */
 }
 
-/* Светлая тема (по умолчанию) */
-body {
-    --bg-color: var(--bg-color-light);
-    --text-color: var(--text-color-light);
-    --primary: var(--primary-light);
-    --secondary: var(--secondary-light);
-    --accent: var(--accent-light);
+/* Темная тема для систем с темным режимом */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1a1a1a;    /* Темный фон */
+        --text-color: #fffbdb;  /* Кремовый текст */
+        --primary: #1b2122;     /* Темное золото */
+        --secondary: #3b4c3a;   /* Темно-оранжевый */
+        --accent: #29627f;      /* Темный терракотовый */
+        --surface: #332900;     /* Темно-желтая поверхность */
+    }
 }
 
-/* Темная тема */
-body.dark-theme {
-    --bg-color: var(--bg-color-dark);
-    --text-color: var(--text-color-dark);
-    --primary: var(--primary-dark);
-    --secondary: var(--secondary-dark);
-    --accent: var(--accent-dark);
-}
 
 body {
     background-color: var(--bg-color);
@@ -39,39 +27,74 @@ body {
     padding: 0;
     height: 100vh;
     transition: all 0.3s ease;
+    text-align: center;
+    font-family: "Noto Sans", serif;
+}
+
+.header h1 {
+    font-size: 2.5rem; /* Увеличь заголовок шапки */
+}
+
+.info h2 {
+    font-size: 2rem;
+    margin-top: 1rem;
+}
+
+.coords h1, .logs h1, .input h1 {
+    font-size: 2rem; /* Увеличь заголовки блоков */
 }
 
 
-
-.container {
-    display: flex; /* включаем flex */
-    justify-content: space-between; /* распределяем по ширине */
-    align-items: center; /* выравниваем по вертикали */
-    gap: 20px; /* расстояние между блоками */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Убирает прокрутку */
+    height: 100%;
 }
+
 
 .wrapper {
     display: flex;
-    height: 100vh;
+    height: calc(100vh - 20px - 20px);
     justify-content: space-between;
     border-radius: 2em;
-    background: #f3e879;
+    background: var(--bg-color);
     margin: 20px;
-    padding: 15px;
+    gap: 20px;
 }
 
 .left, .right {
     border-radius: 2em;
-    margin: 15px;
     padding: 15px;
 }
 
 .right {
     flex: 3;
-    background: green;
+    background: var(--secondary);
 }
 
 .left {
     flex: 2;
-    background: rebeccapurple;
+    background: var(--accent);
+}
+
+.canvas-container {
+    width: 100%; /* Занимает всю ширину родителя */
+    height: 400px; /* Или любая нужная высота */
+    max-width: 600px; /* Ограничение максимальной ширины */
+    margin: 20px auto; /* Центрирование */
+}
+
+#background {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Центрирование по горизонтали */
+    justify-content: center;
+    gap: 30px; /* Расстояние между h2 */
 }
