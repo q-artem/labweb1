@@ -36,7 +36,7 @@ public class Params {
     }
 
 
-    private static Map<String, String> parseParams(String body) {
+    private static Map<String, String> parseParams(String body) {  // need to rewrite
         Map<String, String> params = new LinkedHashMap<>();
         String[] pairs = body.split("&");
         for (String pair : pairs) {

@@ -1,0 +1,77 @@
+:root {
+    /* Светлая тема */
+    --bg-color-light: #ffffff;
+    --text-color-light: #333333;
+    --primary-light: #f3e879;
+    --secondary-light: rebeccapurple;
+    --accent-light: green;
+
+    /* Темная тема */
+    --bg-color-dark: #1a1a1a;
+    --text-color-dark: #ffffff;
+    --primary-dark: #2a2a2a;
+    --secondary-dark: #4a2a6a;
+    --accent-dark: #2d5a2d;
+}
+
+/* Светлая тема (по умолчанию) */
+body {
+    --bg-color: var(--bg-color-light);
+    --text-color: var(--text-color-light);
+    --primary: var(--primary-light);
+    --secondary: var(--secondary-light);
+    --accent: var(--accent-light);
+}
+
+/* Темная тема */
+body.dark-theme {
+    --bg-color: var(--bg-color-dark);
+    --text-color: var(--text-color-dark);
+    --primary: var(--primary-dark);
+    --secondary: var(--secondary-dark);
+    --accent: var(--accent-dark);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    transition: all 0.3s ease;
+}
+
+
+
+.container {
+    display: flex; /* включаем flex */
+    justify-content: space-between; /* распределяем по ширине */
+    align-items: center; /* выравниваем по вертикали */
+    gap: 20px; /* расстояние между блоками */
+}
+
+.wrapper {
+    display: flex;
+    height: 100vh;
+    justify-content: space-between;
+    border-radius: 2em;
+    background: #f3e879;
+    margin: 20px;
+    padding: 15px;
+}
+
+.left, .right {
+    border-radius: 2em;
+    margin: 15px;
+    padding: 15px;
+}
+
+.right {
+    flex: 3;
+    background: green;
+}
+
+.left {
+    flex: 2;
+    background: rebeccapurple;
+}
