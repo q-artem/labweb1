@@ -16,11 +16,25 @@
             <h1>Координатная плоскость</h1>
             <div class="canvas-container">
                 <canvas id="background"></canvas>
+                <canvas id="foreground" width="300" height="300" style="margin-top: -300px;"></canvas>
             </div>
         </div>
 
         <div class="logs">
             <h1>Логи</h1>
+            <div style="margin-left: 5em; ;">
+                <table id="result-table">
+                    <tr>
+                        <th></th>
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>R</th>
+                        <th>Время</th>
+                        <th>Время выполнения</th>
+                        <th>Результат</th>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
     <div class="right">
@@ -33,6 +47,59 @@
         </header>
         <div class="input">
             <h1>Ввод данных</h1>
+            <section class="form-section">
+                <div class="form-container">
+                    <form action="/" method="POST" id="data-form">
+                        <div class="form-group">
+                            <label for="x">Выберите X:</label>
+                            <select class="form-select" id="x" name="x" required>
+                                <option value="-5">-5</option>
+                                <option value="-4">-4</option>
+                                <option value="-3">-3</option>
+                                <option value="-2">-2</option>
+                                <option value="-1">-1</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="y">Введите Y:</label>
+                            <input class="form-input" type="text" id="y" name="y" required>
+                        </div>
+
+                        <div class="form-group">
+                            <fieldset class="checkbox-group">
+                                <legend>Выберите R:</legend>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="r" value="1" id="r-1">
+                                    <label for="r-1">1</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="r" value="1.5" id="r-1.5">
+                                    <label for="r-1.5">1.5</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="r" value="2" id="r-2">
+                                    <label for="r-2">2</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="r" value="2.5" id="r-2.5">
+                                    <label for="r-2.5">2.5</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="r" value="3" id="r-3">
+                                    <label for="r-3">3</label>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Проверить точку</button>
+                    </form>
+                </div>
+            </section>
         </div>
     </div>
 </div>

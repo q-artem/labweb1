@@ -13,7 +13,7 @@
         --text-color: #fffbdb;
         --primary: #1b2122;
         --secondary: #3b4c3a;
-        --accent: #29627f;
+        --accent: #12455a;
         --surface: #332900;
     }
 }
@@ -70,6 +70,7 @@ html, body {
 .left, .right {
     border-radius: 2em;
     padding: 15px;
+    overflow-y: auto;
 }
 
 .right {
@@ -101,4 +102,125 @@ html, body {
     align-items: center; /* Центрирование по горизонтали */
     justify-content: center;
     gap: 30px; /* Расстояние между h2 */
+}
+
+
+/*     ---------------------- check -----------------------------*/
+
+.input-group {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+
+/* Стили для формы */
+.form-container {
+    background: var(--surface);
+    padding: 2em;
+    border-radius: 1em;
+    border: 2px solid var(--accent);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5em;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 1.1em;
+}
+
+/* Стили для select */
+.form-select {
+    width: 100%;
+    padding: 0.8em;
+    border: 2px solid var(--accent);
+    border-radius: 0.5em;
+    background: var(--primary);
+    color: var(--text-color);
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(205, 240, 254, 0.3);
+}
+
+/* Стили для текстового поля */
+.form-input {
+    width: 100%;
+    padding: 0.8em;
+    border: 2px solid var(--accent);
+    border-radius: 0.5em;
+    background: var(--primary);
+    color: var(--text-color);
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(210, 242, 214, 0.3);
+}
+
+/* Стили для группы checkbox */
+.checkbox-group {
+    background: var(--primary);
+    padding: 1em;
+    border-radius: 0.5em;
+    border: 2px solid var(--accent);
+}
+
+.checkbox-group legend {
+    font-weight: 600;
+    color: var(--text-color);
+    padding: 0 0.5em;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    margin: 0.5em 0;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 0.5em;
+    transform: scale(1.2);
+    accent-color: var(--secondary);
+}
+
+.checkbox-item label {
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+/* Стили для кнопки */
+.submit-btn {
+    background: linear-gradient(135deg, var(--secondary), var(--accent));
+    color: var(--text-color);
+    padding: 1em 2em;
+    border: none;
+    border-radius: 0.5em;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1em;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
 }

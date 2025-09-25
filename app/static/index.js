@@ -1,3 +1,12 @@
+//////////////////////////// colors /////////////////////////////
+
+function getVar(variableName) {
+    return getComputedStyle(document.documentElement)
+        .getPropertyValue(variableName)
+        .trim();
+}
+
+
 function drawShapes() {
     const canvas = document.getElementById('background');
     const container = canvas.parentElement;
@@ -59,9 +68,9 @@ function drawShapes() {
     ctx.stroke();
 
     // Оси
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = getVar("--text-color");
     ctx.lineWidth = 3;
-    ctx.fillStyle = "black";
+    ctx.fillStyle = getVar("--text-color");
 
     ctx.beginPath();
     ctx.moveTo(centerX, 0);
@@ -140,3 +149,123 @@ document.addEventListener('DOMContentLoaded', drawShapes);
 
 // Перерисовка при изменении размера окна
 window.addEventListener('resize', drawShapes);
+
+window.addEventListener('', drawShapes);  ///////////////////////////// добавить смену цвета по смене темы
+
+
+const resultTable = document.getElementById('result-table');
+const possibleXValues = [-5, -4, -3, -2, -1, 0, 1, 2, 3];
+const possibleRValues = [1, 1.5, 2, 2.5, 3];
+
+function validateY(y) {
+    if (y === '') {
+        alert('Y не может быть пустым');
+        return false;
+    }
+    const yValue = parseFloat(y);
+    if (isNaN(yValue) || yValue < -5 || yValue > 3) {
+        alert('Y должен быть числом в диапазоне от -5 до 3');
+        return false;
+    }
+    return true;
+}
+
+function validateX(x) {
+    if (!possibleXValues.includes(x)) {
+        alert('X должен быть одним из следующих значений: ' + possibleXValues.join(', '));
+        return false;
+    }
+    return true;
+}
+
+function validateRs(r) {
+    if (!Array.isArray(r) || r.length === 0) {
+        alert('R должен быть массивом с хотя бы одним значением');
+        return false;
+    }
+    for (let value of r) {
+        if (!possibleRValues.includes(value)) {
+            alert('Каждое значение R должно быть одним из следующих: ' + possibleRValues.join(', '));
+            return false;
+        }
+    }
+    return true;
+}
+
+
+function addResultRow(x, y, r, result, currentTime, executionTime) {
+    const row = resultTable.insertRow(1);
+    const btn = document.createElement('button');
+    btn.textContent = 'Отобразить';
+    btn.addEventListener('click', () => showPoint(row));
+    row.insertCell(0).appendChild(btn);
+    row.insertCell(1).innerText = x;
+    row.insertCell(2).innerText = y;
+    row.insertCell(3).innerText = r;
+    row.insertCell(4).innerText = currentTime;
+    row.insertCell(5).innerText = executionTime + ' мс';
+    row.insertCell(6).innerText = result ? 'Попадание' : 'Промах';
+}
+
+
+document.getElementById("data-form").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    x = parseFloat(document.getElementById("x").value);
+    y = document.getElementById("y").value.trim().replace(',', '.');
+    r = Array.from(document.querySelectorAll('input[name="r"]:checked')).map(input => parseFloat(input.value));
+
+    if (!validateX(x) || !validateY(y) || !validateRs(r)) {
+        return;
+    }
+
+    const params = new URLSearchParams();
+    params.append('X', x);
+    params.append('Y', y);
+    params.append('R', r.join(','));
+
+    const response = await fetch("/check", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: params.toString()
+    });
+
+    const data = await response.json();
+    console.log(data);
+    console.log("Jopa");
+    if (response.ok) {
+        for (let i = 0; i < r.length; i++) {
+            addResultRow(data.results[i].X, data.results[i].Y, data.results[i].R, data.results[i].hit, data.current_time, data.processing_time_ms);
+        }
+    } else {
+        alert("Ошибка: " + data.message);
+    }
+});
+
+
+
+function showPoint(tableRow) {
+    const x_value = parseFloat(tableRow.cells[1].innerText);
+    const y_value = parseFloat(tableRow.cells[2].innerText);
+    const r = parseFloat(tableRow.cells[3].innerText);
+    const hit = tableRow.cells[6].innerText === 'Попадание';
+
+    const x = centerX + (x_value * (R / r));
+    const y = centerY - (y_value * (R / r));
+
+    const canvas = document.getElementById('foreground');
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = true;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, Math.PI * 2);
+    ctx.fillStyle = hit ? '#53CA61' : '#FFBE33';
+    ctx.fill();
+}
+
+
+
+
