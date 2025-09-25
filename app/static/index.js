@@ -150,7 +150,30 @@ document.addEventListener('DOMContentLoaded', drawShapes);
 // Перерисовка при изменении размера окна
 window.addEventListener('resize', drawShapes);
 
-window.addEventListener('', drawShapes);  ///////////////////////////// добавить смену цвета по смене темы
+// Создаем MediaQueryList объект
+const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+// Функция-обработчик
+function handleThemeChange(event) {
+    if (event.matches) {
+        console.log('Системная тема изменилась на: ТЕМНУЮ');
+        // Действия для темной темы
+        document.body.classList.add('dark-theme');
+    } else {
+        console.log('Системная тема изменилась на: СВЕТЛУЮ');
+        // Действия для светлой темы
+        document.body.classList.remove('dark-theme');
+    }
+
+    // Перерисовываем элементы, зависящие от темы
+    drawShapes();
+}
+
+// Добавляем слушатель
+darkModeMediaQuery.addEventListener('change', handleThemeChange);
+
+// Вызываем сразу при загрузке
+handleThemeChange(darkModeMediaQuery);
 
 
 const resultTable = document.getElementById('result-table');
