@@ -16,13 +16,13 @@
             <h1>Координатная плоскость</h1>
             <div class="canvas-container">
                 <canvas id="background"></canvas>
-                <canvas id="foreground" width="300" height="300" style="margin-top: -300px;"></canvas>
+                <canvas id="foreground"></canvas>
             </div>
         </div>
 
         <div class="logs">
             <h1>Логи</h1>
-            <div style="margin-left: 5em; ;">
+            <div class="logs-container">
                 <table id="result-table">
                     <tr>
                         <th></th>
@@ -53,15 +53,15 @@
                         <div class="form-group">
                             <label for="x">Выберите X:</label>
                             <select class="form-select" id="x" name="x" required>
-                                <option value="-5">-5</option>
-                                <option value="-4">-4</option>
-                                <option value="-3">-3</option>
-                                <option value="-2">-2</option>
-                                <option value="-1">-1</option>
+                                <option value="-2.0">-2.0</option>
+                                <option value="-1.5">-1.5</option>
+                                <option value="-1.0">-1.0</option>
+                                <option value="-0.5">-0.5</option>
                                 <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                <option value="0.5">0.5</option>
+                                <option value="1.0">1.0</option>
+                                <option value="1.5">1.5</option>
+                                <option value="2.0">2.0</option>
                             </select>
                         </div>
 
@@ -78,20 +78,20 @@
                                     <label for="r-1">1</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" name="r" value="1.5" id="r-1.5">
-                                    <label for="r-1.5">1.5</label>
-                                </div>
-                                <div class="checkbox-item">
                                     <input type="checkbox" name="r" value="2" id="r-2">
                                     <label for="r-2">2</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" name="r" value="2.5" id="r-2.5">
-                                    <label for="r-2.5">2.5</label>
-                                </div>
-                                <div class="checkbox-item">
                                     <input type="checkbox" name="r" value="3" id="r-3">
                                     <label for="r-3">3</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="r" value="4" id="r-4">
+                                    <label for="r-4">4</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="r" value="5" id="r-5">
+                                    <label for="r-5">5</label>
                                 </div>
                             </fieldset>
                         </div>

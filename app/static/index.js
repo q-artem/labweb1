@@ -7,6 +7,8 @@ function getVar(variableName) {
 }
 
 
+let centerX, centerY, R;
+
 function drawShapes() {
     const canvas = document.getElementById('background');
     const container = canvas.parentElement;
@@ -19,9 +21,9 @@ function drawShapes() {
     const width = canvas.width;
     const height = canvas.height;
 
-    const R = Math.min(width, height) * 0.3;
-    const centerX = width / 2;
-    const centerY = height / 2;
+    R = Math.min(width, height) * 0.3;
+    centerX = width / 2;
+    centerY = height / 2;
 
     ctx.clearRect(0, 0, width, height);
 
@@ -41,13 +43,13 @@ function drawShapes() {
 
     // Полукруг
     ctx.beginPath();
-    ctx.arc(centerX, centerY, R/2, -Math.PI/2, 0, false); // От -90° до 0°
+    ctx.arc(centerX, centerY, R / 2, -Math.PI / 2, 0, false); // От -90° до 0°
     ctx.lineTo(centerX, centerY);
     ctx.closePath();
     ctx.fill();
 
     ctx.beginPath();
-    ctx.arc(centerX, centerY, R/2, -Math.PI/2, 0, false);
+    ctx.arc(centerX, centerY, R / 2, -Math.PI / 2, 0, false);
     ctx.lineWidth = 4;
     ctx.stroke();
 
@@ -55,14 +57,14 @@ function drawShapes() {
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.lineTo(centerX + R, centerY);
-    ctx.lineTo(centerX, centerY + R/2);
+    ctx.lineTo(centerX, centerY + R / 2);
     ctx.closePath();
     ctx.fill();
 
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.lineTo(centerX + R, centerY);
-    ctx.lineTo(centerX, centerY + R/2);
+    ctx.lineTo(centerX, centerY + R / 2);
     ctx.closePath();
     ctx.lineWidth = 4;
     ctx.stroke();
@@ -99,10 +101,10 @@ function drawShapes() {
     ctx.fillText("-R", centerX - R, centerY + 6);
 
     ctx.beginPath();
-    ctx.moveTo(centerX - R/2, centerY - 4);
-    ctx.lineTo(centerX - R/2, centerY + 4);
+    ctx.moveTo(centerX - R / 2, centerY - 4);
+    ctx.lineTo(centerX - R / 2, centerY + 4);
     ctx.stroke();
-    ctx.fillText("-R/2", centerX - R/2, centerY + 6);
+    ctx.fillText("-R/2", centerX - R / 2, centerY + 6);
 
     ctx.beginPath();
     ctx.moveTo(centerX + R, centerY - 4);
@@ -111,10 +113,10 @@ function drawShapes() {
     ctx.fillText("R", centerX + R, centerY + 6);
 
     ctx.beginPath();
-    ctx.moveTo(centerX + R/2, centerY - 4);
-    ctx.lineTo(centerX + R/2, centerY + 4);
+    ctx.moveTo(centerX + R / 2, centerY - 4);
+    ctx.lineTo(centerX + R / 2, centerY + 4);
     ctx.stroke();
-    ctx.fillText("R/2", centerX + R/2, centerY + 6);
+    ctx.fillText("R/2", centerX + R / 2, centerY + 6);
 
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
@@ -126,10 +128,10 @@ function drawShapes() {
     ctx.fillText("R", centerX + 7, centerY - R);
 
     ctx.beginPath();
-    ctx.moveTo(centerX - 4, centerY - R/2);
-    ctx.lineTo(centerX + 4, centerY - R/2);
+    ctx.moveTo(centerX - 4, centerY - R / 2);
+    ctx.lineTo(centerX + 4, centerY - R / 2);
     ctx.stroke();
-    ctx.fillText("R/2", centerX + 7, centerY - R/2);
+    ctx.fillText("R/2", centerX + 7, centerY - R / 2);
 
     ctx.beginPath();
     ctx.moveTo(centerX - 4, centerY + R);
@@ -138,10 +140,10 @@ function drawShapes() {
     ctx.fillText("-R", centerX + 7, centerY + R);
 
     ctx.beginPath();
-    ctx.moveTo(centerX - 4, centerY + R/2);
-    ctx.lineTo(centerX + 4, centerY + R/2);
+    ctx.moveTo(centerX - 4, centerY + R / 2);
+    ctx.lineTo(centerX + 4, centerY + R / 2);
     ctx.stroke();
-    ctx.fillText("-R/2", centerX + 7, centerY + R/2);
+    ctx.fillText("-R/2", centerX + 7, centerY + R / 2);
 }
 
 // Инициализация при загрузке
@@ -177,8 +179,8 @@ handleThemeChange(darkModeMediaQuery);
 
 
 const resultTable = document.getElementById('result-table');
-const possibleXValues = [-5, -4, -3, -2, -1, 0, 1, 2, 3];
-const possibleRValues = [1, 1.5, 2, 2.5, 3];
+const possibleXValues = [-2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0];
+const possibleRValues = [1, 2, 3, 4, 5];
 
 function validateY(y) {
     if (y === '') {
@@ -186,7 +188,7 @@ function validateY(y) {
         return false;
     }
     const yValue = parseFloat(y);
-    if (isNaN(yValue) || yValue < -5 || yValue > 3) {
+    if (isNaN(yValue) || yValue < -3 || yValue > 3) {
         alert('Y должен быть числом в диапазоне от -5 до 3');
         return false;
     }
@@ -221,6 +223,7 @@ function addResultRow(x, y, r, result, currentTime, executionTime) {
     const btn = document.createElement('button');
     btn.textContent = 'Отобразить';
     btn.addEventListener('click', () => showPoint(row));
+    btn.className = 'show-btn';
     row.insertCell(0).appendChild(btn);
     row.insertCell(1).innerText = x;
     row.insertCell(2).innerText = y;
@@ -234,9 +237,9 @@ function addResultRow(x, y, r, result, currentTime, executionTime) {
 document.getElementById("data-form").addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    x = parseFloat(document.getElementById("x").value);
-    y = document.getElementById("y").value.trim().replace(',', '.');
-    r = Array.from(document.querySelectorAll('input[name="r"]:checked')).map(input => parseFloat(input.value));
+    let x = parseFloat(document.getElementById("x").value);
+    let y = document.getElementById("y").value.trim().replace(',', '.');
+    let r = Array.from(document.querySelectorAll('input[name="r"]:checked')).map(input => parseFloat(input.value));
 
     if (!validateX(x) || !validateY(y) || !validateRs(r)) {
         return;
@@ -257,7 +260,6 @@ document.getElementById("data-form").addEventListener("submit", async function (
 
     const data = await response.json();
     console.log(data);
-    console.log("Jopa");
     if (response.ok) {
         for (let i = 0; i < r.length; i++) {
             addResultRow(data.results[i].X, data.results[i].Y, data.results[i].R, data.results[i].hit, data.current_time, data.processing_time_ms);
@@ -268,27 +270,40 @@ document.getElementById("data-form").addEventListener("submit", async function (
 });
 
 
-
 function showPoint(tableRow) {
     const x_value = parseFloat(tableRow.cells[1].innerText);
     const y_value = parseFloat(tableRow.cells[2].innerText);
-    const r = parseFloat(tableRow.cells[3].innerText);
+    const r_value = parseFloat(tableRow.cells[3].innerText);
     const hit = tableRow.cells[6].innerText === 'Попадание';
 
-    const x = centerX + (x_value * (R / r));
-    const y = centerY - (y_value * (R / r));
+    // Пересчет координат
+    const x = centerX + (x_value * (R / r_value));
+    const y = centerY - (y_value * (R / r_value));
+
+    console.log('Координаты на canvas:', {x, y});
 
     const canvas = document.getElementById('foreground');
     const ctx = canvas.getContext('2d');
-    ctx.imageSmoothingEnabled = true;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Убедимся, что canvas правильного размера
+    const container = document.querySelector('.canvas-container');
+    const size = container.clientWidth;
+    canvas.width = size;
+    canvas.height = size;
+
+    // Очищаем только конкретную область или весь canvas
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Рисуем точку
     ctx.beginPath();
-    ctx.arc(x, y, 5, 0, Math.PI * 2);
-    ctx.fillStyle = hit ? '#53CA61' : '#FFBE33';
+    ctx.arc(x, y, 8, 0, Math.PI * 2); // Увеличим радиус для видимости
+    ctx.fillStyle = hit ? '#53CA61' : '#FF3333'; // Более яркие цвета
     ctx.fill();
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    console.log('Точка нарисована');
 }
-
-
 
 

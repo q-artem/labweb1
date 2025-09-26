@@ -50,7 +50,7 @@ public class Params {
 
     private static void validate(float X, float Y, Set<Integer> R) throws ParamsException {
         if (Y < -3 || Y > 3) {
-            throw new ParamsException("Y must be in the range (-5, 3)");
+            throw new ParamsException("Y must be in the range (-3, 3)");
         }
         Set<Integer> validR = Set.of(1, 2, 3, 4, 5);
         for (Integer r : R) {
