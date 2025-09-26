@@ -5,6 +5,8 @@
     --secondary: #cdf0fe;
     --accent: #d2f2d6;
     --surface: #fff9c4;
+    --figure: #28baa0;
+    --figure-stroke: #1e8875;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,7 +16,9 @@
         --primary: #1b2122;
         --secondary: #3b4c3a;
         --accent: #12455a;
-        --surface: #332900;
+        --surface: #392e00;
+        --figure: #28baa0;
+        --figure-stroke: #1e8875;
     }
 }
 
@@ -35,12 +39,10 @@ body {
     font-family: "Noto Sans", serif;
 }
 
-.header {
-    font-family: "Fantasy", cursive;
-}
-
 .header h1 {
-    font-size: 2.5rem; /* Увеличь заголовок шапки */
+    /*font-family: "Fantasy", cursive;*/
+    font-family: "Noto Sans", serif; /*задали явным образом*/
+    font-size: 2.5rem;
     margin-top: 0;
 }
 
@@ -50,14 +52,14 @@ body {
 }
 
 .coords h1, .logs h1, .input h1 {
-    font-size: 2rem; /* Увеличь заголовки блоков */
+    font-size: 2rem;
 }
 
 
 html, body {
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Убирает прокрутку */
+    overflow: hidden; /*убирает прокрутку*/
     height: 100%;
 }
 
@@ -126,9 +128,8 @@ html, body {
 
 /*     ---------------------- check -----------------------------*/
 
-.input-group {
-    margin-top: 1em;
-    margin-bottom: 1em;
+.input {
+    font-size: 1.2rem;
 }
 
 
@@ -190,10 +191,12 @@ html, body {
 
 /* Стили для группы checkbox */
 .checkbox-group {
+    display: flex;
+    gap: 1.5em;
     background: var(--primary);
-    padding: 1em;
     border-radius: 0.5em;
     border: 2px solid var(--accent);
+    padding-left: 1.6rem;
 }
 
 .checkbox-group legend {
@@ -205,7 +208,7 @@ html, body {
 .checkbox-item {
     display: flex;
     align-items: center;
-    margin: 0.5em 0;
+    margin: 0.2em 0;
 }
 
 .checkbox-item input[type="checkbox"] {
@@ -217,6 +220,7 @@ html, body {
 .checkbox-item label {
     color: var(--text-color);
     cursor: pointer;
+    margin: 0;
 }
 
 /* Стили для кнопки */

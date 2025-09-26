@@ -27,8 +27,8 @@ function drawShapes() {
 
     ctx.clearRect(0, 0, width, height);
 
-    ctx.fillStyle = '#DA5869';
-    ctx.strokeStyle = '#CB152B';
+    ctx.fillStyle = getVar("--figure");
+    ctx.strokeStyle = getVar("--figure-stroke");
 
     // Квадрат
     ctx.beginPath();
@@ -277,8 +277,8 @@ function showPoint(tableRow) {
     const hit = tableRow.cells[6].innerText === 'Попадание';
 
     // Пересчет координат
-    const x = centerX + (x_value * (R / r_value));
-    const y = centerY - (y_value * (R / r_value));
+    let x = centerX + (x_value * (R / r_value));
+    let y = centerY - (y_value * (R / r_value));
 
     console.log('Координаты на canvas:', {x, y});
 
@@ -288,19 +288,34 @@ function showPoint(tableRow) {
     // Убедимся, что canvas правильного размера
     const container = document.querySelector('.canvas-container');
     const size = container.clientWidth;
-    canvas.width = size;
-    canvas.height = size;
+    const newSize = container.clientWidth;
+    if (canvas.width !== size) {
+        canvas.width = newSize;
+        canvas.height = newSize;
+    }
 
-    // Очищаем только конкретную область или весь canvas
-    // ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const pointRadius = 5;
 
-    // Рисуем точку
     ctx.beginPath();
-    ctx.arc(x, y, 8, 0, Math.PI * 2); // Увеличим радиус для видимости
-    ctx.fillStyle = hit ? '#53CA61' : '#FF3333'; // Более яркие цвета
+    // Если за пределами канваса
+    if (x < pointRadius || y < pointRadius || x > size - pointRadius || y > size - pointRadius) {
+        if (x< pointRadius) x = pointRadius;
+        if (y < pointRadius) y = pointRadius;
+        if (x > size - pointRadius) x = size - pointRadius;
+        if (y > size - pointRadius) y = size - pointRadius;
+        ctx.moveTo(x, y - pointRadius*1.2); // Верхняя вершина
+        ctx.lineTo(x - pointRadius*1.2, y + pointRadius*1.2); // Левая нижняя
+        ctx.lineTo(x + pointRadius*1.2, y + pointRadius*1.2); // Правая нижняя
+        ctx.closePath();
+        ctx.fillStyle = "#ccbe2c"; // Более яркие цвета
+    } else {
+        ctx.arc(x, y, pointRadius, 0, Math.PI * 2); // Увеличим радиус для видимости
+        ctx.fillStyle = hit ? '#53CA61' : '#FF3333'; // Более яркие цвета
+    }
+
     ctx.fill();
     ctx.strokeStyle = '#000';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
     ctx.stroke();
 
     console.log('Точка нарисована');
