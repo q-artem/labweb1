@@ -27,8 +27,8 @@ function drawShapes() {
 
     ctx.clearRect(0, 0, width, height);
 
-    ctx.fillStyle = getVar("--figure");
-    ctx.strokeStyle = getVar("--figure-stroke");
+    ctx.fillStyle = getVar("--md-sys-color-tertiary-alpha");
+    ctx.strokeStyle = getVar("--md-sys-color-tertiary");
 
     // Квадрат
     ctx.beginPath();

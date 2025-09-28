@@ -10,6 +10,7 @@
         --md-sys-color-secondary-container: rgb(238 226 188);
         --md-sys-color-on-secondary-container: rgb(78 71 42);
         --md-sys-color-tertiary: rgb(67 102 78);
+        --md-sys-color-tertiary-alpha: rgba(67, 102, 78, 0.6);
         --md-sys-color-on-tertiary: rgb(255 255 255);
         --md-sys-color-tertiary-container: rgb(197 236 206);
         --md-sys-color-on-tertiary-container: rgb(44 78 56);
@@ -71,6 +72,7 @@
         --md-sys-color-secondary-container: rgb(78 71 42);
         --md-sys-color-on-secondary-container: rgb(238 226 188);
         --md-sys-color-tertiary: rgb(169 208 179);
+        --md-sys-color-tertiary-alpha: rgba(169, 208, 179, 0.6);
         --md-sys-color-on-tertiary: rgb(20 55 35);
         --md-sys-color-tertiary-container: rgb(44 78 56);
         --md-sys-color-on-tertiary-container: rgb(197 236 206);
@@ -228,11 +230,23 @@ html, body {
     font-size: 1.2rem;
 }
 
-.form-container {
-    background: var(--md-sys-color-surface-container-lowest);
+ {
+    /*центрирование элементов по середине*/
+    display: grid;
+    place-items: center;
+}
+
+.form-container, .coords-container, .logs-container {
+    width: 70%;
+    background: var(--md-sys-color-surface-container-high);
     padding: 2em;
     border-radius: 1em;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.coords-section, .form-section, .logs-section {
+    display: grid;
+    place-items: center;
 }
 
 .form-group {
@@ -333,4 +347,44 @@ html, body {
 
 .submit-btn:active {
     transform: translateY(0);
+}
+
+.show-btn {
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    border: none;
+    border-radius: 0.3em;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+}
+
+#result-table, .tbody {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+    background: var(--md-sys-color-surface-container-lowest);
+    border-radius: 1em;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+#result-table th,
+#result-table td {
+    padding: 0.5em 1em;
+    text-align: center;
+    color: var(--md-sys-color-on-surface);
+}
+
+#result-table th {
+    background: var(--md-sys-color-surface-container-low);
+    font-weight: 600;
+}
+
+#result-table:has(tr:not(:first-child)) th {
+    border-bottom: 2px solid var(--md-sys-color-outline);
+}
+
+#result-table tr:hover {
+    background: var(--md-sys-color-surface-container);
 }
