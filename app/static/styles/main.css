@@ -205,7 +205,7 @@ html, body {
     display: block;
 }
 
-#foreground {
+#foreground, #animate-ground {
     position: absolute;
     top: 0;
     left: 0;

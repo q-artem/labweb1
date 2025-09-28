@@ -219,10 +219,16 @@ function validateRs(r) {
 
 
 function addResultRow(x, y, r, result, currentTime, executionTime) {
+    console.log("Jopa1");
     const row = resultTable.insertRow(1);
+    row.dataset.x = x;
+    row.dataset.y = y;
+    row.dataset.r = r;
+    row.dataset.hit = result;
+
     const btn = document.createElement('button');
     btn.textContent = 'Отобразить';
-    btn.addEventListener('click', () => showPoint(row));
+    btn.addEventListener('click', () => showPointAnimated(row));
     btn.className = 'show-btn';
     row.insertCell(0).appendChild(btn);
     row.insertCell(1).innerText = x;
@@ -231,6 +237,9 @@ function addResultRow(x, y, r, result, currentTime, executionTime) {
     row.insertCell(4).innerText = currentTime;
     row.insertCell(5).innerText = executionTime + ' мс';
     row.insertCell(6).innerText = result ? 'Попадание' : 'Промах';
+
+    showPoint(row);
+    console.log("Jopa");
 }
 
 
@@ -260,6 +269,7 @@ document.getElementById("data-form").addEventListener("submit", async function (
 
     const data = await response.json();
     console.log(data);
+    console.log("Megajopa");
     if (response.ok) {
         for (let i = 0; i < r.length; i++) {
             addResultRow(data.results[i].X, data.results[i].Y, data.results[i].R, data.results[i].hit, data.current_time, data.processing_time_ms);
@@ -268,6 +278,56 @@ document.getElementById("data-form").addEventListener("submit", async function (
         alert("Ошибка: " + data.message);
     }
 });
+
+
+function showPointAnimated(tableRow) {
+    const x_value = parseFloat(tableRow.dataset.x);
+    const y_value = parseFloat(tableRow.dataset.y);
+    const r_value = parseFloat(tableRow.dataset.r);
+
+    let x = centerX + (x_value * (R / r_value));
+    let y = centerY - (y_value * (R / r_value));
+
+    const canvas = document.getElementById('animate-ground');
+    const ctx = canvas.getContext('2d');
+
+    const container = document.querySelector('.canvas-container');
+    const size = container.clientWidth;
+    if (canvas.width !== size) {
+        canvas.width = size;
+        canvas.height = size;
+    }
+
+    const pointRadius = 5;
+    let scale = 0;
+    const maxScale = 1.5;
+    const duration = 700;
+    const interval = 16;
+    const steps = duration / interval;
+    let step = 0;
+
+    const animate = () => {
+        step++;
+        scale = Math.min(maxScale, step / steps * maxScale);
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.beginPath();
+        ctx.arc(x, y, pointRadius, Math.PI * 2 * step / steps % (Math.PI * 2), Math.PI * 2 * step / steps * 3 % (Math.PI * 2));
+        // ctx.fillStyle = ;
+        // ctx.fill();
+
+        ctx.strokeStyle = '#4fbda1';
+        ctx.lineWidth = 5;
+        ctx.stroke();
+
+        if (step < steps) {
+            requestAnimationFrame(animate);
+        }
+    };
+
+    animate();
+}
 
 
 function showPoint(tableRow) {
