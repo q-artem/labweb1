@@ -222,7 +222,6 @@ function validateRs(r) {
 }
 
 function addResultRow(x, y, r, result, currentTime, executionTime) {
-    console.log("Jopa1");
     const row = resultTable.insertRow(1);
     row.dataset.x = x;
     row.dataset.y = y;
@@ -242,7 +241,6 @@ function addResultRow(x, y, r, result, currentTime, executionTime) {
     row.insertCell(6).innerText = result ? "Попадание" : "Промах";
 
     showPoint(row);
-    console.log("Jopa");
 }
 
 document
@@ -275,7 +273,6 @@ document
 
         const data = await response.json();
         console.log(data);
-        console.log("Megajopa");
         if (response.ok) {
             for (let i = 0; i < r.length; i++) {
                 addResultRow(
@@ -318,7 +315,12 @@ function showPointAnimated(tableRow) {
     const steps = duration / interval;
     let step = 0;
 
-    console.log("joooooooooopa");
+    const const_for_animation = 20
+
+    if (x < pointRadius + const_for_animation) x = pointRadius + const_for_animation;
+    if (y < pointRadius + const_for_animation) y = pointRadius + const_for_animation;
+    if (x > size - pointRadius - const_for_animation) x = size - pointRadius - const_for_animation;
+    if (y > size - pointRadius - const_for_animation) y = size - pointRadius - const_for_animation;
 
     const animate = () => {
         step++;
@@ -429,16 +431,17 @@ function showPoint(tableRow) {
 
     ctx.beginPath();
     // Если за пределами канваса
+    const const_for_animation = 20
     if (
-        x < pointRadius ||
-        y < pointRadius ||
-        x > size - pointRadius ||
-        y > size - pointRadius
+        x < pointRadius + const_for_animation ||
+        y < pointRadius + const_for_animation ||
+        x > size - pointRadius - const_for_animation ||
+        y > size - pointRadius - const_for_animation
     ) {
-        if (x < pointRadius) x = pointRadius;
-        if (y < pointRadius) y = pointRadius;
-        if (x > size - pointRadius) x = size - pointRadius;
-        if (y > size - pointRadius) y = size - pointRadius;
+        if (x < pointRadius + const_for_animation) x = pointRadius + const_for_animation;
+        if (y < pointRadius + const_for_animation) y = pointRadius + const_for_animation;
+        if (x > size - pointRadius - const_for_animation) x = size - pointRadius - const_for_animation;
+        if (y > size - pointRadius - const_for_animation) y = size - pointRadius - const_for_animation;
         ctx.moveTo(x, y - pointRadius * 1.2); // Верхняя вершина
         ctx.lineTo(x - pointRadius * 1.2, y + pointRadius * 1.2); // Левая нижняя
         ctx.lineTo(x + pointRadius * 1.2, y + pointRadius * 1.2); // Правая нижняя
