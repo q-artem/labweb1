@@ -182,12 +182,12 @@ const possibleRValues = [1, 2, 3, 4, 5];
 
 function validateY(y) {
     if (y === "") {
-        showToast("Y не может быть пустым", "error");
+        showNotify("Y не может быть пустым", "error");
         return false;
     }
     const yValue = parseFloat(y);
     if (isNaN(yValue) || yValue < -3 || yValue > 3) {
-        showToast("Y должен быть числом в диапазоне от -5 до 3", "error");
+        showNotify("Y должен быть числом в диапазоне от -5 до 3", "error");
         return false;
     }
     return true;
@@ -195,9 +195,9 @@ function validateY(y) {
 
 function validateX(x) {
     if (!possibleXValues.includes(x)) {
-        alert(
+        showNotify(
             "X должен быть одним из следующих значений: " +
-            possibleXValues.join(", "),
+            possibleXValues.join(", "), "error"
         );
         return false;
     }
@@ -206,14 +206,14 @@ function validateX(x) {
 
 function validateRs(r) {
     if (!Array.isArray(r) || r.length === 0) {
-        alert("R должен быть массивом с хотя бы одним значением");
+        showNotify("R должен быть массивом с хотя бы одним значением", "error");
         return false;
     }
     for (let value of r) {
         if (!possibleRValues.includes(value)) {
-            alert(
+            showNotify(
                 "Каждое значение R должно быть одним из следующих: " +
-                possibleRValues.join(", "),
+                possibleRValues.join(", "), "error"
             );
             return false;
         }
@@ -284,8 +284,9 @@ document
                     data.processing_time_ms,
                 );
             }
+            showNotify("Ответ от сервера получен", "success");
         } else {
-            alert("Ошибка: " + data.message);
+            showNotify("Ошибка: " + data.message, "error");
         }
     });
 
@@ -496,21 +497,21 @@ if (navigator.getBattery) {
 
 // notify
 
-function showToast(message, type = 'info') {
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.textContent = message;
+function showNotify(message, type = 'info') {
+    const notify = document.createElement('div');
+    notify.className = `notify ${type}`;
+    notify.textContent = message;
 
-    document.body.appendChild(toast);
+    document.body.appendChild(notify);
 
     setTimeout(() => {
-        toast.classList.add('show');
+        notify.classList.add('show');
     }, 10);
 
     setTimeout(() => {
-        toast.classList.remove('show');
+        notify.classList.remove('show');
         setTimeout(() => {
-            toast.remove();
+            notify.remove();
         }, 300);
     }, 3000);
 

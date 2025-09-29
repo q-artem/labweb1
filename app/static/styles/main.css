@@ -254,10 +254,11 @@ html, body {
     font-size: 1.2rem;
 }
 
-.toast {
+.notify {
     position: fixed;
     top: 20px;
-    right: 20px;
+    left: 40%;
+    width: 20%;
     padding: 12px 20px;
     border-radius: 8px;
     background: var(--md-sys-color-primary);
@@ -267,21 +268,20 @@ html, body {
     opacity: 0;
     transform: translateY(-20px);
     transition: all 0.3s ease;
-    max-width: 300px;
-    word-wrap: break-word;
+    max-width: 400px;
 }
 
-.toast.show {
+.notify.show {
     opacity: 1;
     transform: translateY(0);
 }
 
-.toast.error {
+.notify.error {
     background: var(--md-sys-color-error);
     color: var(--md-sys-color-on-error);
 }
 
-.toast.success {
+.notify.success {
     background: var(--md-sys-color-tertiary-container);
     color: var(--md-sys-color-on-tertiary-container);
 }
