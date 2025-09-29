@@ -365,8 +365,8 @@ function showPointAnimated(tableRow) {
                     x,
                     y,
                     16,
-                    ((left_border + 1.7) % 2) * Math.PI,
-                    ((right_border + 1.7) % 2) * Math.PI,
+                    ((left_border + 2.1) % 2) * Math.PI,
+                    ((right_border + 2.1) % 2) * Math.PI,
                 );
             } else {
                 left_border =
@@ -377,8 +377,8 @@ function showPointAnimated(tableRow) {
                     x,
                     y,
                     16,
-                    ((left_border + 1.7) % 2) * Math.PI,
-                    ((right_border + 1.7) % 2) * Math.PI,
+                    ((left_border + 2.1) % 2) * Math.PI,
+                    ((right_border + 2.1) % 2) * Math.PI,
                 );
             }
             ctx.strokeStyle = "#4fbda1";
