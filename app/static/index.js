@@ -230,7 +230,7 @@ function addResultRow(x, y, r, result, currentTime, executionTime) {
     row.dataset.hit = result;
 
     const btn = document.createElement("button");
-    btn.textContent = "Отобразить";
+    btn.textContent = "Показать";
     btn.addEventListener("click", () => showPointAnimated(row));
     btn.className = "show-btn";
     row.insertCell(0).appendChild(btn);
@@ -324,63 +324,73 @@ function showPointAnimated(tableRow) {
         step++;
         scale = Math.min(maxScale, (step / steps) * maxScale);
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (!document.body.classList.contains("monochrome")) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        ctx.beginPath();
-        left_const = 3;
-        right_const = 6;
-        left_border = (left_const * step) / steps;
-        right_border = (right_const * step) / steps;
-        if (step < steps / 2) {
-            ctx.arc(
-                x,
-                y,
-                pointRadius,
-                (left_border % 2) * Math.PI,
-                (right_border % 2) * Math.PI,
-            );
-        } else {
-            left_border =
-                left_const * 0.5 + (right_const * (step - steps / 2)) / steps;
-            right_border =
-                right_const * 0.5 + (left_const * (step - steps / 2)) / steps;
-            ctx.arc(
-                x,
-                y,
-                pointRadius,
-                (left_border % 2) * Math.PI,
-                (right_border % 2) * Math.PI,
-            );
-        }
-        ctx.strokeStyle = "#4fbda1";
-        ctx.lineWidth = 5;
-        ctx.stroke();
+            ctx.beginPath();
+            let left_const = 3;
+            let right_const = 6;
+            let left_border = (left_const * step) / steps;
+            let right_border = (right_const * step) / steps;
+            if (step < steps / 2) {
+                ctx.arc(
+                    x,
+                    y,
+                    pointRadius,
+                    (left_border % 2) * Math.PI,
+                    (right_border % 2) * Math.PI,
+                );
+            } else {
+                left_border =
+                    left_const * 0.5 + (right_const * (step - steps / 2)) / steps;
+                right_border =
+                    right_const * 0.5 + (left_const * (step - steps / 2)) / steps;
+                ctx.arc(
+                    x,
+                    y,
+                    pointRadius,
+                    (left_border % 2) * Math.PI,
+                    (right_border % 2) * Math.PI,
+                );
+            }
+            ctx.strokeStyle = "#4fbda1";
+            ctx.lineWidth = 5;
+            ctx.stroke();
 
-        ctx.beginPath();
-        if (step < steps / 2) {
-            ctx.arc(
-                x,
-                y,
-                16,
-                ((left_border + 1.7) % 2) * Math.PI,
-                ((right_border + 1.7) % 2) * Math.PI,
-            );
+            ctx.beginPath();
+            if (step < steps / 2) {
+                ctx.arc(
+                    x,
+                    y,
+                    16,
+                    ((left_border + 1.7) % 2) * Math.PI,
+                    ((right_border + 1.7) % 2) * Math.PI,
+                );
+            } else {
+                left_border =
+                    left_const * 0.5 + (right_const * (step - steps / 2)) / steps;
+                right_border =
+                    right_const * 0.5 + (left_const * (step - steps / 2)) / steps;
+                ctx.arc(
+                    x,
+                    y,
+                    16,
+                    ((left_border + 1.7) % 2) * Math.PI,
+                    ((right_border + 1.7) % 2) * Math.PI,
+                );
+            }
+            ctx.strokeStyle = "#4fbda1";
+            ctx.lineWidth = 7;
+            ctx.stroke();
         } else {
-            left_border =
-                left_const * 0.5 + (right_const * (step - steps / 2)) / steps;
-            right_border =
-                right_const * 0.5 + (left_const * (step - steps / 2)) / steps;
-            ctx.arc(
-                x,
-                y,
-                16,
-                ((left_border + 1.7) % 2) * Math.PI,
-                ((right_border + 1.7) % 2) * Math.PI,
-            );
+            if (step === 1) {
+                ctx.beginPath();
+                ctx.arc(x, y, 16, 0, Math.PI*2);
+                ctx.strokeStyle = "#4fbda1";
+                ctx.lineWidth = 5;
+                ctx.stroke();
+            }
         }
-        ctx.strokeStyle = "#4fbda1";
-        ctx.lineWidth = 7;
-        ctx.stroke();
 
         if (step < steps) {
             if (step + 1 === steps)
@@ -456,17 +466,15 @@ if (navigator.getBattery) {
 
             function updateBatteryStatus() {
                 const level = battery.level * 100; // в процентах
-                statusElement.textContent = `Уровень заряда: ${Math.round(level)}%`;
+                statusElement.textContent = `Уровень заряда: ${level}%`;
 
-                if (level <= 35) {
+                if (level <= 20) {
                     document.body.classList.add("monochrome");
                     statusElement.textContent +=
-                        " — Включен монохромный режим энергосбережения";
+                        " — Включен режим энергосбережения";
                 } else {
                     document.body.classList.remove("monochrome");
                 }
-
-                console.log(`Батарея: ${level.toFixed(1)}%`);
             }
 
             battery.addEventListener("chargingchange", updateBatteryStatus);
@@ -474,8 +482,7 @@ if (navigator.getBattery) {
 
             updateBatteryStatus();
         })
-        .catch((err) => {
-            console.error("Ошибка получения данных о батарее:", err);
+        .catch(() => {
             document.getElementById("battery-status").textContent =
                 "❌ API батареи не доступен. Уровень заряда нельзя определить.";
         });
