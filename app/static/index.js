@@ -197,7 +197,7 @@ function validateX(x) {
     if (!possibleXValues.includes(x)) {
         alert(
             "X должен быть одним из следующих значений: " +
-                possibleXValues.join(", "),
+            possibleXValues.join(", "),
         );
         return false;
     }
@@ -213,7 +213,7 @@ function validateRs(r) {
         if (!possibleRValues.includes(value)) {
             alert(
                 "Каждое значение R должно быть одним из следующих: " +
-                    possibleRValues.join(", "),
+                possibleRValues.join(", "),
             );
             return false;
         }
@@ -310,7 +310,7 @@ function showPointAnimated(tableRow) {
         canvas.height = size;
     }
 
-    const pointRadius = 7;
+    const pointRadius = 5;
     let scale = 0;
     const maxScale = 1.5;
     const duration = 1200;
@@ -401,7 +401,7 @@ function showPoint(tableRow) {
     let x = centerX + x_value * (R / r_value);
     let y = centerY - y_value * (R / r_value);
 
-    console.log("Координаты на canvas:", { x, y });
+    console.log("Координаты на canvas:", {x, y});
 
     const canvas = document.getElementById("foreground");
     const ctx = canvas.getContext("2d");
@@ -447,7 +447,7 @@ function showPoint(tableRow) {
     console.log("Точка нарисована");
 }
 
-// battarey API
+// battery API
 if (navigator.getBattery) {
     navigator
         .getBattery()
@@ -458,7 +458,6 @@ if (navigator.getBattery) {
                 const level = battery.level * 100; // в процентах
                 statusElement.textContent = `Уровень заряда: ${Math.round(level)}%`;
 
-                // Если заряд <= 35% → включаем монохромный режим
                 if (level <= 35) {
                     document.body.classList.add("monochrome");
                     statusElement.textContent +=
@@ -470,11 +469,9 @@ if (navigator.getBattery) {
                 console.log(`Батарея: ${level.toFixed(1)}%`);
             }
 
-            // Обновляем при изменении
             battery.addEventListener("chargingchange", updateBatteryStatus);
             battery.addEventListener("levelchange", updateBatteryStatus);
 
-            // Первое обновление
             updateBatteryStatus();
         })
         .catch((err) => {
