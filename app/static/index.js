@@ -182,12 +182,12 @@ const possibleRValues = [1, 2, 3, 4, 5];
 
 function validateY(y) {
     if (y === "") {
-        alert("Y не может быть пустым");
+        showToast("Y не может быть пустым", "error");
         return false;
     }
     const yValue = parseFloat(y);
     if (isNaN(yValue) || yValue < -3 || yValue > 3) {
-        alert("Y должен быть числом в диапазоне от -5 до 3");
+        showToast("Y должен быть числом в диапазоне от -5 до 3", "error");
         return false;
     }
     return true;
@@ -492,4 +492,27 @@ if (navigator.getBattery) {
 } else {
     document.getElementById("battery-status").textContent =
         "❌ Браузер не поддерживает Battery Status API. ";
+}
+
+// notify
+
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 10);
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, 3000);
+
+    console.log("jopa");
 }
