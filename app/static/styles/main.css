@@ -138,6 +138,12 @@ body {
     font-family: "Noto Sans", serif;
 }
 
+.monochrome {
+            filter: grayscale(100%);
+            background: #fff;
+            color: #000;
+        }
+
 .header h1 {
     /*font-family: "Fantasy", cursive;*/
     font-family: "Noto Sans", serif; /*задали явным образом*/
