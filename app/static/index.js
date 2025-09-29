@@ -301,10 +301,12 @@ function showPointAnimated(tableRow) {
     const pointRadius = 5;
     let scale = 0;
     const maxScale = 1.5;
-    const duration = 700;
+    const duration = 3000;
     const interval = 16;
     const steps = duration / interval;
     let step = 0;
+
+    console.log("joooooooooopa");
 
     const animate = () => {
         step++;
@@ -313,7 +315,13 @@ function showPointAnimated(tableRow) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         ctx.beginPath();
-        ctx.arc(x, y, pointRadius, Math.PI * 2 * step / steps % (Math.PI * 2), Math.PI * 2 * step / steps * 3 % (Math.PI * 2));
+        left_border = 2.7 * step / steps * 2
+        right_border = 3.3 * step / steps * 2
+        if (step < (steps/2)) {
+            ctx.arc(x, y, pointRadius, left_border % 2 * Math.PI, right_border % 2 * Math.PI);
+        } else {
+            ctx.arc(x, y, pointRadius, (left_border + right_border) % 2 * Math.PI, (left_border + right_border) % 2 * Math.PI);
+        }
         // ctx.fillStyle = ;
         // ctx.fill();
 
@@ -321,7 +329,7 @@ function showPointAnimated(tableRow) {
         ctx.lineWidth = 5;
         ctx.stroke();
 
-        if (step < steps) {
+        if (step < steps*2) {
             requestAnimationFrame(animate);
         }
     };
