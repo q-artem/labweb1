@@ -484,5 +484,5 @@ if (navigator.getBattery) {
         });
 } else {
     document.getElementById("battery-status").textContent =
-        "❌ Браузер не поддерживает Battery Status API.";
+        "❌ Браузер не поддерживает Battery Status API. ";
 }
