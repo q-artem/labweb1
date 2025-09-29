@@ -88,7 +88,7 @@ public class App {
 
     private static boolean checkHit(float X, float Y, Integer R) {
         if (Y < 0 && X < 0) return false;
-        if (Y > 0 && X > 0) return X * X + Y * Y <= (R/2) * (R/2);
+        if (Y > 0 && X > 0) return X * X + Y * Y <= ((float)R/2) * ((float)R/2);
         if (Y > 0 && X < 0) return -X <= R && Y <= R;
         if (Y < 0 && X > 0) return Y >=  X / 2 - (float) R / 2;
         if (Y == 0) return X >= -R && X <= R;
