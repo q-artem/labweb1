@@ -181,15 +181,25 @@ const possibleXValues = [-2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0];
 const possibleRValues = [1, 2, 3, 4, 5];
 
 function validateY(y) {
+
     if (y === "") {
         showNotify("Y не может быть пустым", "error");
         return false;
     }
-    const yValue = parseFloat(y);
-    if (isNaN(yValue) || yValue < -3 || yValue > 3) {
-        showNotify("Y должен быть числом в диапазоне от -5 до 3", "error");
-        return false;
+
+    let yValue;
+    try {
+        yValue = new Decimal(y); // сохраняет всю точность!
+    } catch (e) {
+        showNotify("Неверный формат числа", "error");
+        return;
     }
+
+    if (yValue.lessThan(-3) || yValue.greaterThan(5)) {
+        showNotify("Y должен быть в диапазоне [-3; 5]", "error");
+        return;
+    }
+
     return true;
 }
 
@@ -234,7 +244,8 @@ function addResultRow(x, y, r, result, currentTime, executionTime) {
     btn.className = "show-btn";
     row.insertCell(0).appendChild(btn);
     row.insertCell(1).innerText = x;
-    row.insertCell(2).innerText = y;
+    row.insertCell(2).innerText = parseFloat(parseFloat(y).toFixed(2)) + (parseFloat(y).toFixed(2).toString().length !== parseFloat(y).toString().length ? "*" : "");
+    row.cells[2].title = y;
     row.insertCell(3).innerText = r;
     row.insertCell(4).innerText = currentTime;
     row.insertCell(5).innerText = executionTime + " мс";
@@ -514,6 +525,4 @@ function showNotify(message, type = 'info') {
             notify.remove();
         }, 300);
     }, 3000);
-
-    console.log("jopa");
 }

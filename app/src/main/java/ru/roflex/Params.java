@@ -8,10 +8,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import java.math.BigDecimal;
+
 public class Params {
-    private float X;
-    private float Y;
-    private Set<Integer> R;
+    private final float X;
+    private final BigDecimal Y;
+    private final Set<Integer> R;
 
 
     public Params(String body) throws ParamsException {
@@ -22,7 +24,7 @@ public class Params {
         }
 
         try {
-            Y = Float.parseFloat(params.get("Y"));
+            Y = new BigDecimal(params.get("Y"));
             X = Float.parseFloat(params.get("X"));
             R = Arrays.stream(params.get("R").split(","))
                     .map(String::trim)
@@ -48,8 +50,8 @@ public class Params {
         return params;
     }
 
-    private static void validate(float X, float Y, Set<Integer> R) throws ParamsException {
-        if (Y < -3 || Y > 3) {
+    private static void validate(float X, BigDecimal Y, Set<Integer> R) throws ParamsException {
+        if (Y.compareTo(new BigDecimal(-3)) < 0|| Y.compareTo(new BigDecimal(3)) > 0) {
             throw new ParamsException("Y must be in the range (-3, 3)");
         }
         Set<Integer> validR = Set.of(1, 2, 3, 4, 5);
@@ -65,7 +67,7 @@ public class Params {
     }
 
 
-    public float getY() {
+    public BigDecimal getY() {
         return Y;
     }
     public Set<Integer> getR() {

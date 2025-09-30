@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fastcgi.FCGIInterface;
+import java.math.BigDecimal;
 
 public class App {
     private static final String HTTP_OK = """
@@ -31,7 +32,7 @@ public class App {
     private static final String ONE_SET_RESULT = """
             {
                 "X": %.2f,
-                "Y": %.2f,
+                "Y": %s,
                 "R": %d,
                 "hit": %b
             }
@@ -63,18 +64,18 @@ public class App {
 
             try {
                 Params params = new Params(body);
-                float Y = params.getY();
+                BigDecimal Y = params.getY();
                 Set<Integer> R = params.getR();
                 float X = params.getX();
 
                 String results = R.stream()
                         .map(r -> {
                             boolean isHit = checkHit(X, Y, r);
-                            return String.format(ONE_SET_RESULT, X, Y, r, isHit);
+                            return String.format(ONE_SET_RESULT, X, "\"" + Y.toPlainString() + "\"", r, isHit);
                         })
                         .collect(Collectors.joining(","));
                 String currentTime = java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
-                String responseContent = String.format(RESULTS_WRAPPER, results, String.valueOf(Instant.now().toEpochMilli()-startTime.toEpochMilli()), currentTime);
+                String responseContent = String.format(RESULTS_WRAPPER, results, Instant.now().toEpochMilli()-startTime.toEpochMilli(), currentTime);
                 String response = String.format(HTTP_OK, responseContent.getBytes(StandardCharsets.UTF_8).length, responseContent);
                 System.out.println(response);
 
@@ -86,13 +87,18 @@ public class App {
         }
     }
 
-    private static boolean checkHit(float X, float Y, Integer R) {
-        if (Y < 0 && X < 0) return false;
-        if (Y > 0 && X > 0) return X * X + Y * Y <= ((float)R/2) * ((float)R/2);
-        if (Y > 0 && X < 0) return -X <= R && Y <= R;
-        if (Y < 0 && X > 0) return Y >=  X / 2 - (float) R / 2;
-        if (Y == 0) return X >= -R && X <= R;
-        return Y >= -(float) R / 2 && Y <= R;
+    private static boolean checkHit(float _X, BigDecimal Y, Integer _R) {
+        BigDecimal X = new BigDecimal(_X);
+        BigDecimal R = new BigDecimal(_R);
+        BigDecimal nul =  new BigDecimal(0);
+        BigDecimal two = new BigDecimal(2);
+
+        if (Y.compareTo(nul) < 0 && X.compareTo(nul) < 0) return false;
+        if (Y.compareTo(nul) > 0 && X.compareTo(nul) > 0) return X.multiply(X).add(Y.multiply(Y)).compareTo((R.divide(two)).multiply(R.divide(two))) <= 0;
+        if (Y.compareTo(nul) > 0 && X.compareTo(nul) < 0) return X.negate().compareTo(R) <= 0 && Y.compareTo(R) <= 0;
+        if (Y.compareTo(nul) < 0 && X.compareTo(nul) > 0) return Y.compareTo(X.divide(two).add(R.divide(two).negate())) >= 0;
+        if (Y.equals(nul)) return X.compareTo(R.negate()) >= 0 && X.compareTo(R) <= 0;
+        return Y.compareTo(R.divide(two).negate()) >= 0 && Y.compareTo(R) <= 0;
     }
 }
 
