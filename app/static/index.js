@@ -244,8 +244,9 @@ function addResultRow(x, y, r, result, currentTime, executionTime) {
     btn.className = "show-btn";
     row.insertCell(0).appendChild(btn);
     row.insertCell(1).innerText = x;
-    row.insertCell(2).innerText = parseFloat(parseFloat(y).toFixed(2)) + (parseFloat(y).toFixed(2).toString().length !== parseFloat(y).toString().length ? "*" : "");
-    row.cells[2].title = y;
+    const is_large_digit = y.replace("-", "").length > 4;
+    row.insertCell(2).innerText = parseFloat(parseFloat(y).toFixed(2)) + (is_large_digit ? "*" : "");
+    if (is_large_digit) row.cells[2].title = y;
     row.insertCell(3).innerText = r;
     row.insertCell(4).innerText = currentTime;
     row.insertCell(5).innerText = executionTime + " мс";

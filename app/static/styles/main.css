@@ -196,8 +196,13 @@ html, body {
     overflow-y: auto;
 }
 
-.battery-status-container {
-    margin-top: auto;
+.left {
+     flex: 2;
+     background: var(--surface);
+     overflow-x: auto;
+ }
+
+.battery-status-container, .star-info-container {
     margin-left: auto;
     display: flex;
     flex-direction: row;
@@ -210,10 +215,17 @@ html, body {
     color: var(--md-sys-color-on-secondary-container);
 }
 
-.left {
-    flex: 2;
-    background: var(--surface);
+.battery-status-container {
+    margin-top: auto;
 }
+
+.star-info-container {
+    margin-top: 1em;
+    padding: 0.5em;
+    background: var(--md-sys-color-surface-variant);
+    color: var(--md-sys-color-on-surface-variant);
+}
+
 
 .canvas-container {
     position: relative;
@@ -296,6 +308,12 @@ html, body {
 
 .form-container {
     margin-bottom: 2em;
+}
+
+.logs-container {
+    min-width: 70%;
+    overflow-x: auto; /* 👈 Разрешаем горизонтальную прокрутку */
+    width: 70%;
 }
 
 .coords-section, .form-section, .logs-section {
