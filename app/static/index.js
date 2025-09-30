@@ -298,7 +298,7 @@ document
             }
             showNotify("Ответ от сервера получен", "success");
         } else {
-            showNotify("Ошибка: " + data.message, "error");
+            showNotify("Ошибка: " + data.reason, "error");
         }
     });
 

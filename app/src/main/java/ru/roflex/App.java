@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fastcgi.FCGIInterface;
+
 import java.math.BigDecimal;
 
 public class App {
@@ -48,9 +49,32 @@ public class App {
             }
             """;
 
+    private static final String NOT_ALLOWED = """
+            Status: 405 Method Not Allowed
+            Allow: POST
+            Content-Type: application/json
+            Content-Length: %d
+            
+            {"reason": "Only POST method is allowed"}
+            """;
+
     public static void main(String[] args) throws IOException { // Floats should be either with dot or comma on client, but converted before sending
         FCGIInterface fcgiInterface = new FCGIInterface();
         while (fcgiInterface.FCGIaccept() >= 0) {
+            String method = System.getenv("REQUEST_METHOD");
+            if (method == null) {
+                method = "GET"; // по умолчанию
+            }
+
+            if (!"POST".equalsIgnoreCase(method)) {
+                String response = String.format(
+                        NOT_ALLOWED,
+                        "{\"reason\": \"Only POST method is allowed\"}".getBytes(StandardCharsets.UTF_8).length
+                );
+                System.out.println(response);
+                continue;
+            }
+
             StringBuilder stringBuilder = new StringBuilder();
             for (int c = 0; c != -1; ) {
                 c = FCGIInterface.request.inStream.read();
@@ -75,7 +99,7 @@ public class App {
                         })
                         .collect(Collectors.joining(","));
                 String currentTime = java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
-                String responseContent = String.format(RESULTS_WRAPPER, results, Instant.now().toEpochMilli()-startTime.toEpochMilli(), currentTime);
+                String responseContent = String.format(RESULTS_WRAPPER, results, Instant.now().toEpochMilli() - startTime.toEpochMilli(), currentTime);
                 String response = String.format(HTTP_OK, responseContent.getBytes(StandardCharsets.UTF_8).length, responseContent);
                 System.out.println(response);
 
@@ -90,13 +114,15 @@ public class App {
     private static boolean checkHit(float _X, BigDecimal Y, Integer _R) {
         BigDecimal X = new BigDecimal(_X);
         BigDecimal R = new BigDecimal(_R);
-        BigDecimal nul =  new BigDecimal(0);
+        BigDecimal nul = new BigDecimal(0);
         BigDecimal two = new BigDecimal(2);
 
         if (Y.compareTo(nul) < 0 && X.compareTo(nul) < 0) return false;
-        if (Y.compareTo(nul) > 0 && X.compareTo(nul) > 0) return X.multiply(X).add(Y.multiply(Y)).compareTo((R.divide(two)).multiply(R.divide(two))) <= 0;
+        if (Y.compareTo(nul) > 0 && X.compareTo(nul) > 0)
+            return X.multiply(X).add(Y.multiply(Y)).compareTo((R.divide(two)).multiply(R.divide(two))) <= 0;
         if (Y.compareTo(nul) > 0 && X.compareTo(nul) < 0) return X.negate().compareTo(R) <= 0 && Y.compareTo(R) <= 0;
-        if (Y.compareTo(nul) < 0 && X.compareTo(nul) > 0) return Y.compareTo(X.divide(two).add(R.divide(two).negate())) >= 0;
+        if (Y.compareTo(nul) < 0 && X.compareTo(nul) > 0)
+            return Y.compareTo(X.divide(two).add(R.divide(two).negate())) >= 0;
         if (Y.equals(nul)) return X.compareTo(R.negate()) >= 0 && X.compareTo(R) <= 0;
         return Y.compareTo(R.divide(two).negate()) >= 0 && Y.compareTo(R) <= 0;
     }
