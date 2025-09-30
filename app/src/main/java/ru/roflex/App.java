@@ -69,7 +69,7 @@ public class App {
             }
             String body = stringBuilder.toString();
 
-            String method = System.getenv("REQUEST_METHOD");
+            String method = System.getProperty("REQUEST_METHOD");
             if (method == null) {
                 method = "GET"; // по умолчанию
             }
