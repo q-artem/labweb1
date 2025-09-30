@@ -61,6 +61,14 @@ public class App {
     public static void main(String[] args) throws IOException { // Floats should be either with dot or comma on client, but converted before sending
         FCGIInterface fcgiInterface = new FCGIInterface();
         while (fcgiInterface.FCGIaccept() >= 0) {
+
+            StringBuilder stringBuilder = new StringBuilder();
+            int c;
+            while ((c = FCGIInterface.request.inStream.read()) != -1) {
+                stringBuilder.append((char) c);
+            }
+            String body = stringBuilder.toString();
+
             String method = System.getenv("REQUEST_METHOD");
             if (method == null) {
                 method = "GET"; // по умолчанию
@@ -75,16 +83,7 @@ public class App {
                 continue;
             }
 
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int c = 0; c != -1; ) {
-                c = FCGIInterface.request.inStream.read();
-                if (c != -1) {
-                    stringBuilder.append((char) c);
-                }
-            }
             var startTime = Instant.now();
-            String body = stringBuilder.toString();
-            // System.out.println(body);
 
             try {
                 Params params = new Params(body);
