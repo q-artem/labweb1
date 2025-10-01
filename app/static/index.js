@@ -527,3 +527,49 @@ function showNotify(message, type = 'info') {
         }, 300);
     }, 3000);
 }
+
+// === РЕЖИМ БЕЗДЕЙСТВИЯ ===
+
+let idleTimer;
+const IDLE_TIMEOUT = 5000; // 20 секунд
+
+// Элементы
+const overlay = document.getElementById('idle-overlay');
+const mainContent = document.body; // если нет #main-content — используем body
+
+// Сброс таймера при любом действии
+function resetIdle() {
+    clearTimeout(idleTimer);
+    overlay.classList.remove('show');
+    mainContent.style.filter = 'none';
+    startIdleTimer(); // Перезапускаем таймер
+}
+
+// Запуск таймера
+function startIdleTimer() {
+    idleTimer = setTimeout(() => {
+        overlay.classList.add('show');
+        mainContent.style.filter = 'blur(2px) brightness(0.6)';
+    }, IDLE_TIMEOUT);
+}
+
+// Обработчики событий
+document.addEventListener('mousemove', resetIdle);
+document.addEventListener('mousedown', resetIdle);
+document.addEventListener('keydown', resetIdle);
+document.addEventListener('scroll', resetIdle);
+document.addEventListener('touchstart', resetIdle); // для мобильных
+document.addEventListener('touchmove', resetIdle);
+
+// Запускаем первый таймер
+startIdleTimer();
+
+// Делаем функцию доступной глобально
+window.resetIdle = resetIdle;
+
+// Если вы хотите, чтобы при нажатии на любой div/элемент — тоже сбрасывалось:
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.idle-content')) {
+        resetIdle();
+    }
+});
