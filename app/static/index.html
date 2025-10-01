@@ -1,130 +1,178 @@
 <!doctype html>
 <html lang="ru">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Simple HTML template">
-    <link rel="icon" type="image/png" href="images/avatar_no_back.png">
-    <title>webLab 1</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.4.3/decimal.min.js"></script>
-    <script defer src="index.js"></script>
-</head>
-<body class="body">
-<div class="wrapper">
-    <div class="left">
-        <div class="coords">
-            <h1>Координатная плоскость</h1>
-            <div class="coords-section">
-                <div class="coords-container">
-                    <div class="canvas-container">
-                        <canvas id="background"></canvas>
-                        <canvas id="foreground"></canvas>
-                        <canvas id="animate-ground"></canvas>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Simple HTML template" />
+        <link rel="icon" type="image/png" href="images/avatar_no_back.png" />
+        <title>webLab 1</title>
+        <link rel="stylesheet" href="styles/main.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.4.3/decimal.min.js"></script>
+        <script defer src="index.js"></script>
+    </head>
+    <body class="body">
+        <div class="wrapper">
+            <div class="left">
+                <div class="coords">
+                    <h1>Координатная плоскость</h1>
+                    <div class="coords-section">
+                        <div class="coords-container">
+                            <div class="canvas-container">
+                                <canvas id="background"></canvas>
+                                <canvas id="foreground"></canvas>
+                                <canvas id="animate-ground"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="logs">
+                    <h1>Логи</h1>
+                    <div class="logs-section">
+                        <div class="logs-container">
+                            <table id="result-table">
+                                <tr>
+                                    <th></th>
+                                    <th>X</th>
+                                    <th>Y</th>
+                                    <th>R</th>
+                                    <th>Время</th>
+                                    <th>Время выполнения</th>
+                                    <th>Результат</th>
+                                </tr>
+                            </table>
+                            <div class="star-info-container">
+                                <div class="star-info">
+                                    * - Точное значение при наведении
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="logs">
-            <h1>Логи</h1>
-            <div class="logs-section">
-                <div class="logs-container">
-                    <table id="result-table">
-                        <tr>
-                            <th></th>
-                            <th>X</th>
-                            <th>Y</th>
-                            <th>R</th>
-                            <th>Время</th>
-                            <th>Время выполнения</th>
-                            <th>Результат</th>
-                        </tr>
-                    </table>
-                    <div class="star-info-container">
-                        <div class="star-info">* - Точное значение при наведении</div>
+            <div class="right">
+                <header class="header">
+                    <h1>Пшеничников Артём Дмитриевич</h1>
+                    <div class="info">
+                        <h2>Группа: P3207</h2>
+                        <h2>Вариант: 467205</h2>
                     </div>
+                </header>
+                <div class="input">
+                    <h1>Ввод данных</h1>
+                    <section class="form-section">
+                        <div class="form-container">
+                            <form action="/" method="POST" id="data-form">
+                                <div class="form-group">
+                                    <label for="x">Выберите X:</label>
+                                    <select
+                                        class="form-select"
+                                        id="x"
+                                        name="x"
+                                        required
+                                    >
+                                        <option value="-2.0">-2.0</option>
+                                        <option value="-1.5">-1.5</option>
+                                        <option value="-1.0">-1.0</option>
+                                        <option value="-0.5">-0.5</option>
+                                        <option value="0">0</option>
+                                        <option value="0.5">0.5</option>
+                                        <option value="1.0">1.0</option>
+                                        <option value="1.5">1.5</option>
+                                        <option value="2.0">2.0</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="y">Введите Y:</label>
+                                    <input
+                                        class="form-input"
+                                        type="text"
+                                        id="y"
+                                        name="y"
+                                        required
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <fieldset class="checkbox-group">
+                                        <legend>Выберите R:</legend>
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                name="r"
+                                                value="1"
+                                                id="r-1"
+                                            />
+                                            <label for="r-1">1</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                name="r"
+                                                value="2"
+                                                id="r-2"
+                                            />
+                                            <label for="r-2">2</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                name="r"
+                                                value="3"
+                                                id="r-3"
+                                            />
+                                            <label for="r-3">3</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                name="r"
+                                                value="4"
+                                                id="r-4"
+                                            />
+                                            <label for="r-4">4</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                name="r"
+                                                value="5"
+                                                id="r-5"
+                                            />
+                                            <label for="r-5">5</label>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <button type="submit" class="submit-btn">
+                                    Проверить точку
+                                </button>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+                <div class="battery-status-container">
+                    <img
+                        src="images/power.png"
+                        alt="power"
+                        style="width: 1.5em; height: 1.5em; margin-right: 0.2em"
+                    />
+                    <div id="battery-status">Загрузка...</div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="right">
-        <header class="header">
-            <h1>Пшеничников Артём Дмитриевич</h1>
-            <div class="info">
-                <h2>Группа: P3207</h2>
-                <h2>Вариант: 467205</h2>
-            </div>
-        </header>
-        <div class="input">
-            <h1>Ввод данных</h1>
-            <section class="form-section">
-                <div class="form-container">
-                    <form action="/" method="POST" id="data-form">
-                        <div class="form-group">
-                            <label for="x">Выберите X:</label>
-                            <select class="form-select" id="x" name="x" required>
-                                <option value="-2.0">-2.0</option>
-                                <option value="-1.5">-1.5</option>
-                                <option value="-1.0">-1.0</option>
-                                <option value="-0.5">-0.5</option>
-                                <option value="0">0</option>
-                                <option value="0.5">0.5</option>
-                                <option value="1.0">1.0</option>
-                                <option value="1.5">1.5</option>
-                                <option value="2.0">2.0</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="y">Введите Y:</label>
-                            <input class="form-input" type="text" id="y" name="y" required>
-                        </div>
-
-                        <div class="form-group">
-                            <fieldset class="checkbox-group">
-                                <legend>Выберите R:</legend>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" name="r" value="1" id="r-1">
-                                    <label for="r-1">1</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" name="r" value="2" id="r-2">
-                                    <label for="r-2">2</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" name="r" value="3" id="r-3">
-                                    <label for="r-3">3</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" name="r" value="4" id="r-4">
-                                    <label for="r-4">4</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" name="r" value="5" id="r-5">
-                                    <label for="r-5">5</label>
-                                </div>
-                            </fieldset>
-                        </div>
-
-                        <button type="submit" class="submit-btn">Проверить точку</button>
-                    </form>
+        <!-- Элемент затемнения и контента -->
+        <div id="idle-overlay" class="idle-overlay">
+            <div class="background"></div>
+            <div class="idle-content">
+                <h2>Не хватает концентрации?</h2>
+                <div class="countdown">
+                    <h1>Запуск СДВГ режима через&nbsp;</h1>
+                    <h1 id="countdown-remaring">3</h1>
+                    <h1>...</h1>
                 </div>
-            </section>
+            </div>
         </div>
-        <div class="battery-status-container">
-            <img src="images/power.png" alt="power" style="width: 1.5em; height: 1.5em; margin-right: 0.2em;">
-            <div id="battery-status">Загрузка...</div>
-        </div>
-    </div>
-</div>
-<!-- Элемент затемнения и контента -->
-<div id="idle-overlay" class="idle-overlay">
-    <div class="idle-content">
-        <h2>Вы ушли?</h2>
-        <p>Нажмите любую клавишу или двигайте мышкой, чтобы продолжить.</p>
-        <button onclick="resetIdle()">Продолжить</button>
-    </div>
-</div>
-</body>
+    </body>
 </html>

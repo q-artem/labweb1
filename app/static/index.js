@@ -181,7 +181,6 @@ const possibleXValues = [-2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0];
 const possibleRValues = [1, 2, 3, 4, 5];
 
 function validateY(y) {
-
     if (y === "") {
         showNotify("Y не может быть пустым", "error");
         return false;
@@ -207,7 +206,8 @@ function validateX(x) {
     if (!possibleXValues.includes(x)) {
         showNotify(
             "X должен быть одним из следующих значений: " +
-            possibleXValues.join(", "), "error"
+                possibleXValues.join(", "),
+            "error",
         );
         return false;
     }
@@ -223,7 +223,8 @@ function validateRs(r) {
         if (!possibleRValues.includes(value)) {
             showNotify(
                 "Каждое значение R должно быть одним из следующих: " +
-                possibleRValues.join(", "), "error"
+                    possibleRValues.join(", "),
+                "error",
             );
             return false;
         }
@@ -245,7 +246,8 @@ function addResultRow(x, y, r, result, currentTime, executionTime) {
     row.insertCell(0).appendChild(btn);
     row.insertCell(1).innerText = x;
     const is_large_digit = y.replace("-", "").length > 4;
-    row.insertCell(2).innerText = parseFloat(parseFloat(y).toFixed(2)) + (is_large_digit ? "*" : "");
+    row.insertCell(2).innerText =
+        parseFloat(parseFloat(y).toFixed(2)) + (is_large_digit ? "*" : "");
     if (is_large_digit) row.cells[2].title = y;
     row.insertCell(3).innerText = r;
     row.insertCell(4).innerText = currentTime;
@@ -328,12 +330,16 @@ function showPointAnimated(tableRow) {
     const steps = duration / interval;
     let step = 0;
 
-    const const_for_animation = 20
+    const const_for_animation = 20;
 
-    if (x < pointRadius + const_for_animation) x = pointRadius + const_for_animation;
-    if (y < pointRadius + const_for_animation) y = pointRadius + const_for_animation;
-    if (x > size - pointRadius - const_for_animation) x = size - pointRadius - const_for_animation;
-    if (y > size - pointRadius - const_for_animation) y = size - pointRadius - const_for_animation;
+    if (x < pointRadius + const_for_animation)
+        x = pointRadius + const_for_animation;
+    if (y < pointRadius + const_for_animation)
+        y = pointRadius + const_for_animation;
+    if (x > size - pointRadius - const_for_animation)
+        x = size - pointRadius - const_for_animation;
+    if (y > size - pointRadius - const_for_animation)
+        y = size - pointRadius - const_for_animation;
 
     const animate = () => {
         step++;
@@ -357,9 +363,11 @@ function showPointAnimated(tableRow) {
                 );
             } else {
                 left_border =
-                    left_const * 0.5 + (right_const * (step - steps / 2)) / steps;
+                    left_const * 0.5 +
+                    (right_const * (step - steps / 2)) / steps;
                 right_border =
-                    right_const * 0.5 + (left_const * (step - steps / 2)) / steps;
+                    right_const * 0.5 +
+                    (left_const * (step - steps / 2)) / steps;
                 ctx.arc(
                     x,
                     y,
@@ -383,9 +391,11 @@ function showPointAnimated(tableRow) {
                 );
             } else {
                 left_border =
-                    left_const * 0.5 + (right_const * (step - steps / 2)) / steps;
+                    left_const * 0.5 +
+                    (right_const * (step - steps / 2)) / steps;
                 right_border =
-                    right_const * 0.5 + (left_const * (step - steps / 2)) / steps;
+                    right_const * 0.5 +
+                    (left_const * (step - steps / 2)) / steps;
                 ctx.arc(
                     x,
                     y,
@@ -400,7 +410,7 @@ function showPointAnimated(tableRow) {
         } else {
             if (step === 1) {
                 ctx.beginPath();
-                ctx.arc(x, y, 16, 0, Math.PI*2);
+                ctx.arc(x, y, 16, 0, Math.PI * 2);
                 ctx.strokeStyle = "#4fbda1";
                 ctx.lineWidth = 5;
                 ctx.stroke();
@@ -426,7 +436,7 @@ function showPoint(tableRow) {
     let x = centerX + x_value * (R / r_value);
     let y = centerY - y_value * (R / r_value);
 
-    console.log("Координаты на canvas:", {x, y});
+    console.log("Координаты на canvas:", { x, y });
 
     const canvas = document.getElementById("foreground");
     const ctx = canvas.getContext("2d");
@@ -444,17 +454,21 @@ function showPoint(tableRow) {
 
     ctx.beginPath();
     // Если за пределами канваса
-    const const_for_animation = 20
+    const const_for_animation = 20;
     if (
         x < pointRadius + const_for_animation ||
         y < pointRadius + const_for_animation ||
         x > size - pointRadius - const_for_animation ||
         y > size - pointRadius - const_for_animation
     ) {
-        if (x < pointRadius + const_for_animation) x = pointRadius + const_for_animation;
-        if (y < pointRadius + const_for_animation) y = pointRadius + const_for_animation;
-        if (x > size - pointRadius - const_for_animation) x = size - pointRadius - const_for_animation;
-        if (y > size - pointRadius - const_for_animation) y = size - pointRadius - const_for_animation;
+        if (x < pointRadius + const_for_animation)
+            x = pointRadius + const_for_animation;
+        if (y < pointRadius + const_for_animation)
+            y = pointRadius + const_for_animation;
+        if (x > size - pointRadius - const_for_animation)
+            x = size - pointRadius - const_for_animation;
+        if (y > size - pointRadius - const_for_animation)
+            y = size - pointRadius - const_for_animation;
         ctx.moveTo(x, y - pointRadius * 1.2); // Верхняя вершина
         ctx.lineTo(x - pointRadius * 1.2, y + pointRadius * 1.2); // Левая нижняя
         ctx.lineTo(x + pointRadius * 1.2, y + pointRadius * 1.2); // Правая нижняя
@@ -509,67 +523,70 @@ if (navigator.getBattery) {
 
 // notify
 
-function showNotify(message, type = 'info') {
-    const notify = document.createElement('div');
+function showNotify(message, type = "info") {
+    const notify = document.createElement("div");
     notify.className = `notify ${type}`;
     notify.textContent = message;
 
     document.body.appendChild(notify);
 
     setTimeout(() => {
-        notify.classList.add('show');
+        notify.classList.add("show");
     }, 10);
 
     setTimeout(() => {
-        notify.classList.remove('show');
+        notify.classList.remove("show");
         setTimeout(() => {
             notify.remove();
         }, 300);
     }, 3000);
 }
 
-// === РЕЖИМ БЕЗДЕЙСТВИЯ ===
+//сдвг режим
 
-let idleTimer;
-const IDLE_TIMEOUT = 5000; // 20 секунд
+let sdvgTimer;
+const SDVG_TIMEOUT = 5000;
 
-// Элементы
-const overlay = document.getElementById('idle-overlay');
-const mainContent = document.body; // если нет #main-content — используем body
+const overlay = document.getElementById("idle-overlay");
+const mainContent = document.getElementById("wrapper");
 
-// Сброс таймера при любом действии
 function resetIdle() {
-    clearTimeout(idleTimer);
-    overlay.classList.remove('show');
-    mainContent.style.filter = 'none';
-    startIdleTimer(); // Перезапускаем таймер
+    clearTimeout(sdvgTimer);
+    overlay.classList.remove("show");
+    startIdleTimer(); // рестарт
 }
 
-// Запуск таймера
 function startIdleTimer() {
-    idleTimer = setTimeout(() => {
-        overlay.classList.add('show');
-        mainContent.style.filter = 'blur(2px) brightness(0.6)';
-    }, IDLE_TIMEOUT);
+    sdvgTimer = setTimeout(() => {
+        overlay.classList.add("show");
+        showCountdown();
+    }, SDVG_TIMEOUT);
 }
 
-// Обработчики событий
-document.addEventListener('mousemove', resetIdle);
-document.addEventListener('mousedown', resetIdle);
-document.addEventListener('keydown', resetIdle);
-document.addEventListener('scroll', resetIdle);
-document.addEventListener('touchstart', resetIdle); // для мобильных
-document.addEventListener('touchmove', resetIdle);
+function showCountdown() {
+    const countdown = document.getElementById("countdown-remaring");
+    let remainingTime = SDVG_TIMEOUT / 1000;
+    countdown.textContent = remainingTime;
 
-// Запускаем первый таймер
+    const countdownInterval = setInterval(() => {
+        countdown.textContent = remainingTime;
+        remainingTime--;
+
+        if (remainingTime < 0) {
+            clearInterval(countdownInterval);
+            countdown.textContent = "0";
+        }
+    }, 1000);
+}
+
+document.addEventListener("mousemove", resetIdle);
+document.addEventListener("mousedown", resetIdle);
+document.addEventListener("keydown", resetIdle);
+document.addEventListener("scroll", resetIdle);
+document.addEventListener("touchstart", resetIdle); // для мобильных
+document.addEventListener("touchmove", resetIdle);
+
 startIdleTimer();
 
-// Делаем функцию доступной глобально
+// глобально
 window.resetIdle = resetIdle;
-
-// Если вы хотите, чтобы при нажатии на любой div/элемент — тоже сбрасывалось:
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.idle-content')) {
-        resetIdle();
-    }
-});
