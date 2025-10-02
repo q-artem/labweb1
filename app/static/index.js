@@ -145,13 +145,13 @@ function drawShapes() {
     ctx.fillText("-R/2", centerX + 7, centerY + R / 2);
 }
 
-// Инициализация при загрузке
+//инит
 document.addEventListener("DOMContentLoaded", drawShapes);
 
-// Перерисовка при изменении размера окна
 window.addEventListener("resize", drawShapes);
 
-// Создаем MediaQueryList объект
+////////////////////// dark mode ////////////////////////
+
 const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
 // Функция-обработчик
@@ -170,11 +170,11 @@ function handleThemeChange(event) {
     drawShapes();
 }
 
-// Добавляем слушатель
 darkModeMediaQuery.addEventListener("change", handleThemeChange);
 
-// Вызываем сразу при загрузке
 handleThemeChange(darkModeMediaQuery);
+
+///////////////////////// process send res ////////////////////////
 
 const resultTable = document.getElementById("result-table");
 const possibleXValues = [-2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0];
@@ -188,7 +188,7 @@ function validateY(y) {
 
     let yValue;
     try {
-        yValue = new Decimal(y); // сохраняет всю точность!
+        yValue = new Decimal(y); // для точно правильного парсинга
     } catch (e) {
         showNotify("Неверный формат числа", "error");
         return;
@@ -304,6 +304,8 @@ document
         }
     });
 
+//////////////////// анимация отображения ///////////////////////////////
+
 function showPointAnimated(tableRow) {
     const x_value = parseFloat(tableRow.dataset.x);
     const y_value = parseFloat(tableRow.dataset.y);
@@ -386,8 +388,8 @@ function showPointAnimated(tableRow) {
                     x,
                     y,
                     16,
-                    ((left_border + 2.1) % 2) * Math.PI,
-                    ((right_border + 2.1) % 2) * Math.PI,
+                    ((left_border + 1.5) % 2) * Math.PI,
+                    ((right_border + 1.5) % 2) * Math.PI,
                 );
             } else {
                 left_border =
@@ -400,8 +402,8 @@ function showPointAnimated(tableRow) {
                     x,
                     y,
                     16,
-                    ((left_border + 2.1) % 2) * Math.PI,
-                    ((right_border + 2.1) % 2) * Math.PI,
+                    ((left_border + 1.5) % 2) * Math.PI,
+                    ((right_border + 1.5) % 2) * Math.PI,
                 );
             }
             ctx.strokeStyle = "#4fbda1";
@@ -426,13 +428,14 @@ function showPointAnimated(tableRow) {
     animate();
 }
 
+/////////////////////// show point /////////////////////////
+
 function showPoint(tableRow) {
     const x_value = parseFloat(tableRow.cells[1].innerText);
     const y_value = parseFloat(tableRow.cells[2].innerText);
     const r_value = parseFloat(tableRow.cells[3].innerText);
     const hit = tableRow.cells[6].innerText === "Попадание";
 
-    // Пересчет координат
     let x = centerX + x_value * (R / r_value);
     let y = centerY - y_value * (R / r_value);
 
@@ -441,7 +444,7 @@ function showPoint(tableRow) {
     const canvas = document.getElementById("foreground");
     const ctx = canvas.getContext("2d");
 
-    // Убедимся, что canvas правильного размера
+    //резайс, без этого не воркает
     const container = document.querySelector(".canvas-container");
     const size = container.clientWidth;
     const newSize = container.clientWidth;
@@ -469,25 +472,26 @@ function showPoint(tableRow) {
             x = size - pointRadius - const_for_animation;
         if (y > size - pointRadius - const_for_animation)
             y = size - pointRadius - const_for_animation;
-        ctx.moveTo(x, y - pointRadius * 1.2); // Верхняя вершина
-        ctx.lineTo(x - pointRadius * 1.2, y + pointRadius * 1.2); // Левая нижняя
-        ctx.lineTo(x + pointRadius * 1.2, y + pointRadius * 1.2); // Правая нижняя
+        ctx.moveTo(x, y - pointRadius * 1.2);
+        ctx.lineTo(x - pointRadius * 1.2, y + pointRadius * 1.2);
+        ctx.lineTo(x + pointRadius * 1.2, y + pointRadius * 1.2);
         ctx.closePath();
-        ctx.fillStyle = "#ccbe2c"; // Более яркие цвета
+        ctx.fillStyle = "#ccbe2c";
     } else {
-        ctx.arc(x, y, pointRadius, 0, Math.PI * 2); // Увеличим радиус для видимости
-        ctx.fillStyle = hit ? "#53CA61" : "#FF3333"; // Более яркие цвета
+        ctx.arc(x, y, pointRadius, 0, Math.PI * 2);
+        ctx.fillStyle = hit ? "#53CA61" : "#FF3333";
     }
 
     ctx.fill();
-    ctx.strokeStyle = "#000";
+    ctx.strokeStyle = "#0F0F0F";
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
     console.log("Точка нарисована");
 }
 
-// battery API
+//////////////////////// battery API ///////////////////////
+
 if (navigator.getBattery) {
     navigator
         .getBattery()
@@ -521,7 +525,7 @@ if (navigator.getBattery) {
         "❌ Браузер не поддерживает Battery Status API. ";
 }
 
-// notify
+////////////////////////////// notify ///////////////////////
 
 function showNotify(message, type = "info") {
     const notify = document.createElement("div");
@@ -542,7 +546,7 @@ function showNotify(message, type = "info") {
     }, 3000);
 }
 
-//сдвг режим
+//////////////////////// sdvg mode ///////////////////////
 
 let sdvgTimer;
 const SDVG_TIMEOUT = 5000;
