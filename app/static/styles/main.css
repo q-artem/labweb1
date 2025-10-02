@@ -505,8 +505,8 @@ body {
     background: radial-gradient(
         circle,
         transparent 0%,
-        rgba(0, 0, 0, 0.3) 0%,
-        rgba(0, 0, 0, 0.7) 80%,
+        rgba(0, 0, 0, 0.25) 0%,
+        rgba(0, 0, 0, 0.7) 70%,
         rgba(0, 0, 0, 1) 100%
     );
     opacity: 0;
@@ -523,6 +523,8 @@ body {
 .idle-content {
     text-align: center;
     padding: 2em;
+    padding-left: 4em;
+    padding-right: 4em;
     background: var(--md-sys-color-surface-container-high);
     border-radius: 2em;
     max-width: 60%;
@@ -531,6 +533,7 @@ body {
 
 .idle-content h1 {
     margin-top: 0;
+    margin-bottom: 0.5em;
     font-size: 4em;
 }
 
@@ -542,4 +545,91 @@ body {
 .countdown {
     display: flex;
     flex-direction: row;
+}
+.sdvg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    padding: 2em;
+    width: 100%;
+    height: 100vh;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    background: var(--md-sys-color-surface-container);
+}
+
+.sdvg-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Левая часть — 2 видео по вертикали */
+.sdvg-content-left-colown {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    /*width: 10;
+    height: 100%;*/
+    height: 100%;
+    width: 40%;
+}
+
+.sdvg-content-left-colown .sdvg-video {
+    width: auto;
+    height: calc(50% - 6em);
+    object-fit: cover;
+    border-radius: 2em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.sdvg-content-left {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    width: 100%; /* можно менять % или использовать flex-basis */
+    height: 50%;
+}
+
+.sdvg-content-left .sdvg-video {
+    width: 100%;
+    height: 100%; /* занимает половину высоты */
+    object-fit: cover;
+    border-radius: 2em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+/* Правая часть — 3 видео по горизонтали */
+.sdvg-content-right-colown {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    /*width: 65%;*/
+    height: 100%;
+    width: 100%;
+    width: calc(60% - 3em);
+}
+
+.sdvg-content-right {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    /*width: 65%;
+    height: 100%;*/
+    height: 100%;
+}
+
+.sdvg-content-right .sdvg-video {
+    width: calc(100% - 3em); /* 1/3 от ширины правой части */
+    height: calc(50% - 3em);
+    object-fit: cover;
+    border-radius: 2em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }

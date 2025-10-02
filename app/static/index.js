@@ -549,10 +549,12 @@ const SDVG_TIMEOUT = 5000;
 
 const overlay = document.getElementById("idle-overlay");
 const mainContent = document.getElementById("wrapper");
+const sdvgOverlay = document.getElementById("sdvg-overlay");
 
 function resetIdle() {
     clearTimeout(sdvgTimer);
     overlay.classList.remove("show");
+    sdvgOverlay.classList.remove("show");
     startIdleTimer(); // рестарт
 }
 
@@ -566,7 +568,7 @@ function startIdleTimer() {
 function showCountdown() {
     const countdown = document.getElementById("countdown-remaring");
     let remainingTime = SDVG_TIMEOUT / 1000;
-    countdown.textContent = remainingTime;
+    countdown.textContent = remainingTime + 1;
 
     const countdownInterval = setInterval(() => {
         countdown.textContent = remainingTime;
@@ -574,7 +576,10 @@ function showCountdown() {
 
         if (remainingTime < 0) {
             clearInterval(countdownInterval);
-            countdown.textContent = "0";
+            if (overlay.classList.contains("show")) {
+                countdown.textContent = "0";
+                sdvgOverlay.classList.add("show");
+            }
         }
     }, 1000);
 }
