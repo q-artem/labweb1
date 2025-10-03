@@ -1,3 +1,8 @@
+/////////////////////////// defines /////////////////////////
+const MONOCHROME_BATTERY_LEVEL = 20;
+const SDVG_TIMEOUT = 5000;
+const COUNTDOWN_TIMEOUT = 5000;
+
 //////////////////////////// colors /////////////////////////////
 
 function getVar(variableName) {
@@ -502,7 +507,7 @@ if (navigator.getBattery) {
                 const level = battery.level * 100; // в процентах
                 statusElement.textContent = `Уровень заряда: ${level}%`;
 
-                if (level <= 20) {
+                if (level <= MONOCHROME_BATTERY_LEVEL) {
                     document.body.classList.add("monochrome");
                     statusElement.textContent +=
                         " — Включен режим энергосбережения";
@@ -549,7 +554,6 @@ function showNotify(message, type = "info") {
 //////////////////////// sdvg mode ///////////////////////
 
 let sdvgTimer;
-const SDVG_TIMEOUT = 5000;
 
 const overlay = document.getElementById("idle-overlay");
 const mainContent = document.getElementById("wrapper");
@@ -563,15 +567,21 @@ function resetIdle() {
 }
 
 function startIdleTimer() {
-    sdvgTimer = setTimeout(() => {
-        overlay.classList.add("show");
-        showCountdown();
-    }, SDVG_TIMEOUT);
+    if (
+        !document
+            .getElementById("battery-status")
+            .classList.contains("monochrome")
+    ) {
+        sdvgTimer = setTimeout(() => {
+            overlay.classList.add("show");
+            showCountdown();
+        }, SDVG_TIMEOUT);
+    }
 }
 
 function showCountdown() {
     const countdown = document.getElementById("countdown-remaring");
-    let remainingTime = SDVG_TIMEOUT / 1000;
+    let remainingTime = COUNTDOWN_TIMEOUT / 1000;
     countdown.textContent = remainingTime + 1;
 
     const countdownInterval = setInterval(() => {
